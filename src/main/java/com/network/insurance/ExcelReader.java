@@ -39,7 +39,9 @@ public class ExcelReader {
                 String gov = currentCell.getCell(3).getStringCellValue().trim();
                 Governorate governorate = service.getGovernorate(gov);
                 provider.setGovernorateID(governorate.getID());
-                provider.setCityEng(currentCell.getCell(4).getStringCellValue());
+                String cy = currentCell.getCell(4).getStringCellValue().trim();
+                City city = service.getCity(cy);
+                provider.setCityID(city.getID());
                 provider.setAddressEng(currentCell.getCell(5).getStringCellValue());
                 DataFormatter formatter = new DataFormatter();
                 String val = formatter.formatCellValue(currentCell.getCell(6));
@@ -51,7 +53,6 @@ public class ExcelReader {
                 provider.setLongitude(currentCell.getCell(16).getNumericCellValue());
                 provider.setMapLocation(sheet.getRow(1).getCell(19).getStringCellValue() + provider.getLatitude() + ',' + provider.getLongitude());
                 provider.setAddressAr(currentCell.getCell(19).getStringCellValue());
-                provider.setCityAr(currentCell.getCell(20).getStringCellValue());
                 provider.setProviderNameAr(currentCell.getCell(24).getStringCellValue());
                 providers.add(provider);
                 rowNumber++;

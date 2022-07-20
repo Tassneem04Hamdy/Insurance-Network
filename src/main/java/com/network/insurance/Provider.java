@@ -10,14 +10,15 @@ public class Provider implements Comparable<Provider> {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
     private String providerNameEng;
-    private String cityEng;
+    //private String cityEng;
     private String addressEng;
     private String specialityEng;
     private String providerNameAr;
-    private String cityAr;
+    //private String cityAr;
     private String addressAr;
     private String specialityAr;
     private int governorateID;
+    private int cityID;
     private String phones;
     private String website;
     private String mapLocation;
@@ -41,14 +42,6 @@ public class Provider implements Comparable<Provider> {
 
     public void setProviderNameEng(String providerNameEng) {
         this.providerNameEng = providerNameEng;
-    }
-
-    public String getCityEng() {
-        return cityEng;
-    }
-
-    public void setCityEng(String cityEng) {
-        this.cityEng = cityEng;
     }
 
     public String getAddressEng() {
@@ -75,14 +68,6 @@ public class Provider implements Comparable<Provider> {
         this.providerNameAr = providerNameAr;
     }
 
-    public String getCityAr() {
-        return cityAr;
-    }
-
-    public void setCityAr(String cityAr) {
-        this.cityAr = cityAr;
-    }
-
     public String getAddressAr() {
         return addressAr;
     }
@@ -105,6 +90,14 @@ public class Provider implements Comparable<Provider> {
 
     public void setGovernorateID(int governorateID) {
         this.governorateID = governorateID;
+    }
+
+    public int getCityID() {
+        return cityID;
+    }
+
+    public void setCityID(int cityID) {
+        this.cityID = cityID;
     }
 
     public String getPhones() {
@@ -152,14 +145,13 @@ public class Provider implements Comparable<Provider> {
         return "Provider{" +
                 "ID=" + ID +
                 ", providerNameEng='" + providerNameEng + '\'' +
-                ", cityEng='" + cityEng + '\'' +
                 ", addressEng='" + addressEng + '\'' +
                 ", specialityEng='" + specialityEng + '\'' +
                 ", providerNameAr='" + providerNameAr + '\'' +
-                ", cityAr='" + cityAr + '\'' +
                 ", addressAr='" + addressAr + '\'' +
                 ", specialityAr='" + specialityAr + '\'' +
                 ", governorateID=" + governorateID +
+                ", cityID=" + cityID +
                 ", phones='" + phones + '\'' +
                 ", website='" + website + '\'' +
                 ", mapLocation='" + mapLocation + '\'' +

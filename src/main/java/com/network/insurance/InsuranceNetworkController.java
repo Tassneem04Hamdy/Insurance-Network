@@ -26,7 +26,8 @@ public class InsuranceNetworkController {
             List<Provider> additions = excelReader.extractData(file.getInputStream(), "New Additions");
             List<Provider> deletions = excelReader.extractData(file.getInputStream(), "Deletion");
             service.update(additions, deletions);
-            List<Provider> updates = excelReader.extractData(file.getInputStream(), "Update");
+            //List<Provider> updates = excelReader.extractData(file.getInputStream(), "Update");
+
             /*
             List<Provider> conflicts = service.compareUpdates(updates);
             if (!conflicts.isEmpty()) {
@@ -41,8 +42,9 @@ public class InsuranceNetworkController {
 
     @GetMapping("/providers")
     public ResponseEntity<String> getProviders(@RequestParam(name = "speciality") String speciality,
-                                               @RequestParam(name = "governorateName", required = false) String governorateName) {
-        List<Provider> providers = service.findProviders(speciality, governorateName);
+                                               @RequestParam(name = "governorateName", required = false) String governorateName,
+                                               @RequestParam(name = "cityName", required = false) String cityName) {
+        List<Provider> providers = service.findProviders(speciality, governorateName, cityName);
         return ResponseEntity.status(HttpStatus.OK).body("Providers: \n" + providers);
     }
 

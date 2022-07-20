@@ -5,9 +5,7 @@ package com.network.insurance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static java.util.Collections.sort;
 
@@ -16,11 +14,18 @@ public class InsuranceNetworkService {
     @Autowired
     GovernorateRepository governorateRepository;
     @Autowired
+    CityRepository cityRepository;
+    @Autowired
     ProviderRepository providerRepository;
 
     public Governorate getGovernorate(String governorateName) {
         Governorate governorate = governorateRepository.findByGovernorateEng(governorateName);
         return governorate;
+    }
+
+    public City getCity(String cityName) {
+        City city = cityRepository.findByCityEng(cityName);
+        return city;
     }
 
     public void update(List<Provider> additions, List<Provider> deletions) {
@@ -41,15 +46,15 @@ public class InsuranceNetworkService {
         return conflicts;
     }
 
-    public List<Provider> findProviders(String speciality, String governorateName) {
+    public List<Provider> findProviders(String speciality, String governorateName, String cityName) {
         /*LanguageIdentifier identifier = new LanguageIdentifier(governorateName);
         String language = identifier.getLanguage();
         System.out.println("Language of the given content is : " + language);*/
         List<Provider> providers;
-        if (Objects.isNull(governorateName)) {
+        if (Objects.isNull(governorateName) || Objects.isNull(cityName)) {
             providers = this.findProvidersBySpeciality(speciality);
         } else {
-            providers = this.findProvidersBySpecialityAndGovernorate(speciality, governorateName);
+            providers = this.findProvidersBySpecialityAndGovernorateAndCity(speciality, governorateName, cityName);
         }
         return providers;
     }
@@ -59,9 +64,10 @@ public class InsuranceNetworkService {
         return providers;
     }
 
-    public List<Provider> findProvidersBySpecialityAndGovernorate(String speciality, String governorateName) {
+    public List<Provider> findProvidersBySpecialityAndGovernorateAndCity(String speciality, String governorateName, String cityName) {
         Governorate governorate = this.getGovernorate(governorateName);
-        List<Provider> providers = providerRepository.findBySpecialityEngAndGovernorateID(speciality, governorate.getID());
+        City city = this.getCity(cityName);
+        List<Provider> providers = providerRepository.findBySpecialityEngAndGovernorateIDAndCityID(speciality, governorate.getID(), city.getID());
         return providers;
     }
 
