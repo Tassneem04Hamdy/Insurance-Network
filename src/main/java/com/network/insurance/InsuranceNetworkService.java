@@ -73,12 +73,26 @@ public class InsuranceNetworkService {
         double latitude = Double.parseDouble(location.split(",")[0]);
         double longitude = Double.parseDouble(location.split(",")[1]);
         for (int i = 0; i < providers.size(); i++) {
-            double lat = providers.get(i).getLatitude();
-            double lon = providers.get(i).getLongitude();
-            double distance = Math.abs(lat - latitude) + Math.abs(lon - longitude);
-            if (distance <= 10000.0) nearProviders.add(providers.get(i));
+            double distance = checkDistance(providers.get(i), latitude, longitude);
+            if (distance <= 10) nearProviders.add(providers.get(i));
         }
-        return providers;
+        return nearProviders;
+    }
+
+    double checkDistance (Provider provider, double latitude, double longitude) {
+        double lat = provider.getLatitude();
+        double lon = provider.getLongitude();
+        double latDistance = Math.toRadians(latitude - lat);
+        double lngDistance = Math.toRadians(longitude - lon);
+
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+                + Math.cos(Math.toRadians(latitude)) * Math.cos(Math.toRadians(lat))
+                * Math.sin(lngDistance / 2) * Math.sin(lngDistance / 2);
+
+        double distance = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        final double AVERAGE_RADIUS_OF_EARTH_KM = 6371;
+        distance = Math.round(AVERAGE_RADIUS_OF_EARTH_KM * distance);
+        return distance;
     }
 
     public List<Provider> findProvidersBySpecialityAndGovernorateAndCity(String speciality, String governorateName, String cityName) {
