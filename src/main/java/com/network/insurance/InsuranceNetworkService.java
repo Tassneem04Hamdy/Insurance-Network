@@ -68,7 +68,7 @@ public class InsuranceNetworkService {
     }
 
     private List<Provider> findProvidersBySpecialityAndLocation(String speciality, String location) {
-        List<Provider> providers = providerRepository.findAll();
+        List<Provider> providers = providerRepository.findBySpecialityEng(speciality);
         List<Provider> nearProviders = new ArrayList<>();
         double latitude = Double.parseDouble(location.split(",")[0]);
         double longitude = Double.parseDouble(location.split(",")[1]);
