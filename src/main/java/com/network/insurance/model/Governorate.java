@@ -1,4 +1,4 @@
-package com.network.insurance;
+package com.network.insurance.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

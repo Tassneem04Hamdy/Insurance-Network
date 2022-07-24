@@ -1,7 +1,11 @@
-package com.network.insurance;
+package com.network.insurance.srvice;
 
-//import org.apache.tika.language.LanguageIdentifier;
-
+import com.network.insurance.repository.CityRepository;
+import com.network.insurance.repository.GovernorateRepository;
+import com.network.insurance.repository.ProviderRepository;
+import com.network.insurance.model.City;
+import com.network.insurance.model.Governorate;
+import com.network.insurance.model.Provider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -47,9 +51,6 @@ public class InsuranceNetworkService {
     }
 
     public List<Provider> findProviders(String speciality, String governorateName, String cityName, String location) {
-        /*LanguageIdentifier identifier = new LanguageIdentifier(governorateName);
-        String language = identifier.getLanguage();
-        System.out.println("Language of the given content is : " + language);*/
         List<Provider> providers;
         if (!(Objects.isNull(governorateName) || Objects.isNull(cityName))) {
             providers = this.findProvidersBySpecialityAndGovernorateAndCity(speciality, governorateName, cityName);
