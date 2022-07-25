@@ -33,12 +33,10 @@ public class InsuranceNetworkController {
             List<Provider> deletions = excelReader.extractData(file.getInputStream(), "Deletion");
             service.update(additions, deletions);
             List<Provider> updates = excelReader.extractData(file.getInputStream(), "Update");
-            /*
             List<Provider> conflicts = service.compareUpdates(updates);
             if (!conflicts.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("There is data conflict: " + conflicts);
             }
-            */
             return ResponseEntity.status(HttpStatus.OK).body("Updates are successfully done.");
         } catch (IOException e) {
             throw new RuntimeException("Failed to parse excel file: " + e.getMessage());

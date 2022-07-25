@@ -32,9 +32,16 @@ public class InsuranceNetworkService {
     }
 
     public void update(List<Provider> additions, List<Provider> deletions) {
-        providerRepository.saveAll(additions);
+        for (int i = 0; i < additions.size(); i++) {
+            boolean found = providerRepository.existsByProviderNameEngAndMapLocationAndSpecialityEng
+                    (additions.get(i).getProviderNameEng(), additions.get(i).getMapLocation(), additions.get(i).getSpecialityEng());
+            if (!found) {
+                providerRepository.save(additions.get(i));
+            }
+        }
         for (int i = 0; i < deletions.size(); i++) {
-            Provider provider = providerRepository.findByProviderNameEngAndMapLocation(deletions.get(i).getProviderNameEng(), deletions.get(i).getMapLocation());
+            Provider provider = providerRepository.findByProviderNameEngAndMapLocationAndSpecialityEng
+                    (deletions.get(i).getProviderNameEng(), deletions.get(i).getMapLocation(), deletions.get(i).getSpecialityEng());
             deletions.get(i).setID(provider.getID());
         }
         providerRepository.deleteAll(deletions);
@@ -42,8 +49,14 @@ public class InsuranceNetworkService {
 
     public List<Provider> compareUpdates(List<Provider> updates) {
         List<Provider> conflicts = new ArrayList<>();
-        List<Provider> providers = providerRepository.findAll();
-        // Comparison logic
+        for (int i = 0; i < updates.size(); i++) {
+            System.out.println(updates.get(i));
+            Provider provider = providerRepository.findByProviderNameEngAndMapLocationAndSpecialityEng
+                            (updates.get(i).getProviderNameEng(), updates.get(i).getMapLocation(), updates.get(i).getSpecialityEng());
+            if (provider == null) {
+                conflicts.add(updates.get(i));
+            }
+        }
         return conflicts;
     }
 
