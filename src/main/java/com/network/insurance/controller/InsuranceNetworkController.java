@@ -3,9 +3,11 @@ package com.network.insurance.controller;
 import com.network.insurance.helper.ExcelReader;
 import com.network.insurance.model.Provider;
 import com.network.insurance.srvice.InsuranceNetworkService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,20 +20,19 @@ import java.util.Objects;
 
 @RestController
 public class InsuranceNetworkController {
-
     @Autowired
     InsuranceNetworkService service;
     @Autowired
     ExcelReader excelReader;
 
     @PostMapping("/upload")
+    @PreAuthorize("hasRole('" + "ADMIN')")
     public ResponseEntity<String> upload(@RequestParam("file") MultipartFile file) {
         try {
             List<Provider> additions = excelReader.extractData(file.getInputStream(), "New Additions");
             List<Provider> deletions = excelReader.extractData(file.getInputStream(), "Deletion");
             service.update(additions, deletions);
             List<Provider> updates = excelReader.extractData(file.getInputStream(), "Update");
-
             /*
             List<Provider> conflicts = service.compareUpdates(updates);
             if (!conflicts.isEmpty()) {
@@ -56,5 +57,4 @@ public class InsuranceNetworkController {
         List<Provider> providers = service.findProviders(speciality, governorateName, cityName, location);
         return ResponseEntity.status(HttpStatus.OK).body("Providers: \n" + providers);
     }
-
 }

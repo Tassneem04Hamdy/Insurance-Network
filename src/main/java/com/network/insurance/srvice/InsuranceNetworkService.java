@@ -6,12 +6,11 @@ import com.network.insurance.repository.ProviderRepository;
 import com.network.insurance.model.City;
 import com.network.insurance.model.Governorate;
 import com.network.insurance.model.Provider;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
-
-import static java.util.Collections.sort;
 
 @Service
 public class InsuranceNetworkService {
@@ -44,8 +43,6 @@ public class InsuranceNetworkService {
     public List<Provider> compareUpdates(List<Provider> updates) {
         List<Provider> conflicts = new ArrayList<>();
         List<Provider> providers = providerRepository.findAll();
-        sort(providers);
-        sort(updates);
         // Comparison logic
         return conflicts;
     }
