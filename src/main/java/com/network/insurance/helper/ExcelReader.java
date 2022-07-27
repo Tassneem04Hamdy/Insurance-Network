@@ -43,10 +43,10 @@ public class ExcelReader {
                 provider.setProviderNameEng(currentCell.getCell(0).getStringCellValue());
                 String gov = currentCell.getCell(3).getStringCellValue().trim();
                 Governorate governorate = service.getGovernorate(gov);
-                provider.setGovernorateID(governorate.getID());
+                provider.setGovernorate(governorate);
                 String cy = currentCell.getCell(4).getStringCellValue().trim();
                 City city = service.getCity(cy);
-                provider.setCityID(city.getID());
+                provider.setCity(city);
                 provider.setAddressEng(currentCell.getCell(5).getStringCellValue());
                 DataFormatter formatter = new DataFormatter();
                 String val = formatter.formatCellValue(currentCell.getCell(6));

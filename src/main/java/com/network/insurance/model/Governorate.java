@@ -1,11 +1,14 @@
 package com.network.insurance.model;
 
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "governorate")
+@EnableAutoConfiguration
 public class Governorate {
 
     @Id

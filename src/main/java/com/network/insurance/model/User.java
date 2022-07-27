@@ -1,5 +1,7 @@
 package com.network.insurance.model;
 
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
@@ -8,6 +10,7 @@ import java.util.Set;
 
 @Entity
 @Table(	name = "users")
+@EnableAutoConfiguration
 public class User {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

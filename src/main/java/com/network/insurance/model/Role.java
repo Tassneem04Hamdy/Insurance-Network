@@ -1,9 +1,12 @@
 package com.network.insurance.model;
 
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "roles")
+@EnableAutoConfiguration
 public class Role {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

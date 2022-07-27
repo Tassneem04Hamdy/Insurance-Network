@@ -1,29 +1,36 @@
 package com.network.insurance.model;
 
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "provider")
+@EnableAutoConfiguration
 public class Provider implements Comparable<Provider> {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int ID;
     private String providerNameEng;
-    //private String cityEng;
     private String addressEng;
     private String specialityEng;
     private String providerNameAr;
-    //private String cityAr;
     private String addressAr;
     private String specialityAr;
-    private int governorateID;
-    private int cityID;
     private String phones;
     private String website;
     private String mapLocation;
     private double latitude;
     private double longitude;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinTable(name = "provider_governorate", joinColumns = @JoinColumn(name = "provider_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "governorate_id", referencedColumnName = "id"))
+    private Governorate governorate;
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinTable(name = "provider_city", joinColumns = @JoinColumn(name = "provider_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "city_id", referencedColumnName = "id"))
+    private City city;
 
     public Provider() {
     }
@@ -84,22 +91,6 @@ public class Provider implements Comparable<Provider> {
         this.specialityAr = specialityAr;
     }
 
-    public int getGovernorateID() {
-        return governorateID;
-    }
-
-    public void setGovernorateID(int governorateID) {
-        this.governorateID = governorateID;
-    }
-
-    public int getCityID() {
-        return cityID;
-    }
-
-    public void setCityID(int cityID) {
-        this.cityID = cityID;
-    }
-
     public String getPhones() {
         return phones;
     }
@@ -140,6 +131,22 @@ public class Provider implements Comparable<Provider> {
         this.longitude = longitude;
     }
 
+    public Governorate getGovernorate() {
+        return governorate;
+    }
+
+    public void setGovernorate(Governorate governorate) {
+        this.governorate = governorate;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
     @Override
     public String toString() {
         return "Provider{" +
@@ -150,8 +157,8 @@ public class Provider implements Comparable<Provider> {
                 ", providerNameAr='" + providerNameAr + '\'' +
                 ", addressAr='" + addressAr + '\'' +
                 ", specialityAr='" + specialityAr + '\'' +
-                ", governorateID=" + governorateID +
-                ", cityID=" + cityID +
+                ", governorate=" + governorate +
+                ", city=" + city +
                 ", phones='" + phones + '\'' +
                 ", website='" + website + '\'' +
                 ", mapLocation='" + mapLocation + '\'' +
