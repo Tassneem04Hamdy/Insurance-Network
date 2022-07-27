@@ -50,7 +50,10 @@ public class InsuranceNetworkController {
                                                @RequestParam(name = "location", required = false) String location) {
         if ((Objects.isNull(governorateName) && !Objects.isNull(cityName)) ||
                 (!Objects.isNull(governorateName) && Objects.isNull(cityName))) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("GovernorateName and CityName must be provided.");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Both GovernorateName and CityName must be provided.");
+        }
+        else if (Objects.isNull(governorateName) && Objects.isNull(location)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Provide either GovernorateName and CityName or Location.");
         }
         List<Provider> providers = service.findProviders(speciality, governorateName, cityName, location);
         return ResponseEntity.status(HttpStatus.OK).body("Providers: \n" + providers);

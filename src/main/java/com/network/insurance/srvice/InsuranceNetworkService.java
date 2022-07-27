@@ -40,9 +40,13 @@ public class InsuranceNetworkService {
             }
         }
         for (int i = 0; i < deletions.size(); i++) {
-            Provider provider = providerRepository.findByProviderNameEngAndMapLocationAndSpecialityEng
+            boolean found = providerRepository.existsByProviderNameEngAndMapLocationAndSpecialityEng
                     (deletions.get(i).getProviderNameEng(), deletions.get(i).getMapLocation(), deletions.get(i).getSpecialityEng());
-            deletions.get(i).setID(provider.getID());
+            if (found) {
+                Provider provider = providerRepository.findByProviderNameEngAndMapLocationAndSpecialityEng
+                        (deletions.get(i).getProviderNameEng(), deletions.get(i).getMapLocation(), deletions.get(i).getSpecialityEng());
+                deletions.get(i).setID(provider.getID());
+            }
         }
         providerRepository.deleteAll(deletions);
     }
@@ -64,17 +68,16 @@ public class InsuranceNetworkService {
         List<Provider> providers;
         if (!(Objects.isNull(governorateName) || Objects.isNull(cityName))) {
             providers = this.findProvidersBySpecialityAndGovernorateAndCity(speciality, governorateName, cityName);
-        } else if (!(Objects.isNull(location))) {
+        } else {
             providers = this.findProvidersBySpecialityAndLocation(speciality, location);
-        }
-        else {
-            providers = this.findProvidersBySpeciality(speciality);
         }
         return providers;
     }
 
-    public List<Provider> findProvidersBySpeciality(String speciality) {
-        List<Provider> providers = providerRepository.findBySpecialityEng(speciality);
+    public List<Provider> findProvidersBySpecialityAndGovernorateAndCity(String speciality, String governorateName, String cityName) {
+        Governorate governorate = this.getGovernorate(governorateName);
+        City city = this.getCity(cityName);
+        List<Provider> providers = providerRepository.findBySpecialityEngAndGovernorateIDAndCityID(speciality, governorate.getID(), city.getID());
         return providers;
     }
 
@@ -105,12 +108,4 @@ public class InsuranceNetworkService {
         distance = Math.round(AVERAGE_RADIUS_OF_EARTH_KM * distance);
         return distance;
     }
-
-    public List<Provider> findProvidersBySpecialityAndGovernorateAndCity(String speciality, String governorateName, String cityName) {
-        Governorate governorate = this.getGovernorate(governorateName);
-        City city = this.getCity(cityName);
-        List<Provider> providers = providerRepository.findBySpecialityEngAndGovernorateIDAndCityID(speciality, governorate.getID(), city.getID());
-        return providers;
-    }
-
 }
